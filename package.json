@@ -1,7 +1,7 @@
 {
   "name": "file-server",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "app.js",
   "license": "MIT",
   "scripts": {
     "serve": "nodemon ./app.js --watch ./"
