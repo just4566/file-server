@@ -22,7 +22,7 @@ npm run serve
 
 ## 共享文件位置
 
-项目目录下 => public 文件夹
+项目目录下 => static 文件夹
 
 
 
@@ -31,3 +31,7 @@ npm run serve
 - http://localhost:5000/[文件名.扩展名]
 
 - https://localhost:5001/[文件名.扩展名]
+
+## 图片收集到本地
+
+- http://localhost:5000 网络图片收集页
