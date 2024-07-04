@@ -59,5 +59,5 @@ function saveWebImgToLocal(path, webUrl){
     }
   })
 }
-// saveWebImgToLocal(__dirname, 'http://i0.hdslb.com/bfs/banner/b6e4c6369bde24c64ec759ac70ee732f8e5ecce6.jpg')
+
 module.exports = saveWebImgToLocal
