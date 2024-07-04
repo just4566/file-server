@@ -1,19 +1,25 @@
 const express = require('express')
 const cors = require('cors')
 const https = require('https')
+const bodyParser = require('body-parser')
 const fs = require('fs')
 const chalk = require('chalk')
+const path = require("path")
+const imgRouter = require('./route/img')
 const domain = 'localhost'
+
 
 const app = express()
 
 app.use(cors())
 
 app.use(express.static(__dirname + '/public'))
+app.use(express.static(path.resolve('./static')))
 
-app.use('', (req, res)=>{
-    res.send('服务器状态：running')
-})
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
+app.use('/img', imgRouter)
 
 const httpsServer = https.createServer({
         key: fs.readFileSync('./cert/key.pem'),

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>收集图谱</title>
+    <style>
+        body, body > main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+        main > * {
+            margin-bottom: 32px;
+        }
+        #webUrl {
+            width: 80%;
+            height: 40px;
+            padding: 4px 20px;
+            font-size: 30px;
+            border-radius: 12px;
+        }
+        #submit {
+            width: 50%;
+            height: 40px;
+            padding: 4px 20px;
+            font-size: 20px;
+            border-radius: 12px;
+            border-width: 1px;
+            border-color: #1878c1;
+            color: white;
+            background-color: #1878c1;
+            cursor: pointer;
+            transition: all .15s ease;
+        }
+        #submit:hover {
+            background-color: rgba(30, 153, 246, 0.97);
+            border-color: rgba(30, 153, 246, 0.97);
+            box-shadow: 0 0 10px 2px #999;
+        }
+        .img-container{
+            position: relative;
+            width: 460px;
+            height: 460px;
+            border: 1px solid #eee;
+            border-radius: 10px;
+        }
+        .img-container .placeholder{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            font-size: 18px;
+            color: #999;
+            font-family: '等线 Light';
+            transform: translate(-50%, -50%);
+        }
+        #imgView {
+            position: relative;
+            width: 460px;
+            height: 460px;
+            object-fit: contain;
+        }
+        img[src=""],img:not([src]) {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>
+            图谱收集
+        </h1>
+    </header>
+    <main>
+        <input id="webUrl">
+        <button id="submit">提交到服务器</button>
+        <span> 服务器保存地址：<span id="serverUrl"></span> </span>
+        <div class="img-container">
+            <div class="placeholder">图片显示区域</div>
+            <img id="imgView" alt="图片预览" srcset="" >
+        </div>
+    </main>
+    <script>
+      const input = document.getElementById('webUrl')
+      const button = document.getElementById('submit')
+      const text = document.getElementById('serverUrl')
+      const img = document.getElementById('imgView')
+
+      let timer = null
+      let delay = 300
+      button.addEventListener('click', ()=>{
+        if (input.value){
+          // 防抖
+          if (timer) clearTimeout(timer)
+          timer = setTimeout(()=>{
+            post(input.value)
+              .then(data=>{
+                img.src = data.data
+                text.innerText = data.data
+              })
+            timer = null
+          }, delay)
+        }
+      })
+
+      function post(source) {
+        return new Promise((resolve, reject) => {
+          fetch('/img/save', {
+            method: 'post',
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({source})
+          })
+            .then(response=>resolve(response.json()))
+            .catch(reject)
+        })
+      }
+    </script>
+</body>
+</html>
